@@ -20,7 +20,9 @@ public:
   sc_fifo_out<unsigned char> o_r;
   sc_fifo_out<unsigned char> o_g;
   sc_fifo_out<unsigned char> o_b;
-  sc_fifo_in<int> i_result;
+  sc_fifo_in<int> i_result_r;
+  sc_fifo_in<int> i_result_g;
+  sc_fifo_in<int> i_result_b;
 
   SC_HAS_PROCESS(Testbench);
 

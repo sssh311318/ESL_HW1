@@ -124,7 +124,7 @@ void Testbench::do_gaussian() {
   int x, y, v, u;        // for loop counter
   unsigned char R, G, B; // color of R, G, B
   int adjustX, adjustY, xBound, yBound;
-  int total;
+  int total_r , total_g , total_b;
 
   o_rst.write(false);
   o_rst.write(true);
@@ -157,21 +157,33 @@ void Testbench::do_gaussian() {
         }
       }
 
-      if(i_result.num_available()==0) wait(i_result.data_written_event());
-      total = i_result.read();
+      if(i_result_r.num_available()==0) wait(i_result_r.data_written_event());
+      if(i_result_g.num_available()==0) wait(i_result_g.data_written_event());
+      if(i_result_b.num_available()==0) wait(i_result_b.data_written_event());
+      
+      total_r = i_result_r.read();
+      total_g = i_result_g.read();
+      total_b = i_result_b.read();
       //cout << "Now at " << sc_time_stamp() << endl; //print current sc_time
-
-      if (total  >= 0) {
-        // black
-        *(target_bitmap + bytes_per_pixel * (width * y + x) + 2) = total;
-        *(target_bitmap + bytes_per_pixel * (width * y + x) + 1) = total;
-        *(target_bitmap + bytes_per_pixel * (width * y + x) + 0) = total;
-      } else {
-        // white
-        *(target_bitmap + bytes_per_pixel * (width * y + x) + 2) = total;
-        *(target_bitmap + bytes_per_pixel * (width * y + x) + 1) = total;
-        *(target_bitmap + bytes_per_pixel * (width * y + x) + 0) = total;
+      if(total_r  >= 0 ){
+        *(target_bitmap + bytes_per_pixel * (width * y + x) + 2) = total_r;
       }
+      else{
+        *(target_bitmap + bytes_per_pixel * (width * y + x) + 2) = 0;
+      }
+      if(total_g  >= 0 ){
+        *(target_bitmap + bytes_per_pixel * (width * y + x) + 1) = total_g;
+      }
+      else{
+        *(target_bitmap + bytes_per_pixel * (width * y + x) + 1) = 0;
+      }
+      if(total_b  >= 0 ){
+        *(target_bitmap + bytes_per_pixel * (width * y + x) + 0) = total_b;
+      }
+      else{
+        *(target_bitmap + bytes_per_pixel * (width * y + x) + 0) = 0;
+      }
+     
     }
   }
   sc_stop();

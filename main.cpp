@@ -32,8 +32,9 @@ int sc_main(int argc, char **argv) {
   sc_fifo<unsigned char> r;
   sc_fifo<unsigned char> g;
   sc_fifo<unsigned char> b;
-  sc_fifo<int> result;
-
+  sc_fifo<int> result_r;
+  sc_fifo<int> result_g;
+  sc_fifo<int> result_b;
   //Connect FIFO channels with modules
   tb.i_clk(clk);
   tb.o_rst(rst);
@@ -42,12 +43,15 @@ int sc_main(int argc, char **argv) {
   tb.o_r(r);
   tb.o_g(g);
   tb.o_b(b);
-  tb.i_result(result);
+  tb.i_result_r(result_r);
+  tb.i_result_g(result_g);
+  tb.i_result_b(result_b);
   gaussian_filter.i_r(r);
   gaussian_filter.i_g(g);
   gaussian_filter.i_b(b);
-  gaussian_filter.o_result(result);
-
+  gaussian_filter.o_result_r(result_r);
+  gaussian_filter.o_result_g(result_g);
+  gaussian_filter.o_result_b(result_b);
   tb.read_bmp(argv[1]);
   sc_start();
   std::cout << "Simulated time == " << sc_core::sc_time_stamp() << std::endl;

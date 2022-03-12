@@ -12,14 +12,17 @@ public:
   sc_fifo_in<unsigned char> i_r;
   sc_fifo_in<unsigned char> i_g;
   sc_fifo_in<unsigned char> i_b;
-  sc_fifo_out<int> o_result;
-
+  sc_fifo_out<int> o_result_r;
+  sc_fifo_out<int> o_result_g;
+  sc_fifo_out<int> o_result_b;
   SC_HAS_PROCESS(gaussianFilter);
   gaussianFilter(sc_module_name n);
   ~gaussianFilter() = default;
 
 private:
   void do_filter();
-  int val;
+  int val_r ;
+  int val_g ;
+  int val_b;
 };
 #endif
